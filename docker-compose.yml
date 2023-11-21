@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  # ====================================================================================================================
+  # POSTGRES SERVER
+  # ====================================================================================================================
+  pg-docker:
+    image: postgres:14-alpine
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test_db
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres-compose-network
+  # ====================================================================================================================
+  # PGADMIN
+  # ====================================================================================================================
+  pgadmin-docker:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 1234567
+    ports:
+      - "15432:80"
+    networks:
+      - postgres-compose-network
+# ======================================================================================================================
+# REDE
+# ======================================================================================================================
+networks:
+  postgres-compose-network:
+    driver: bridge
