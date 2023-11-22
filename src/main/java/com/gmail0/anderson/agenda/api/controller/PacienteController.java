@@ -1,5 +1,8 @@
 package com.gmail0.anderson.agenda.api.controller;
 
+import com.gmail0.anderson.agenda.api.mapper.PacienteMapper;
+import com.gmail0.anderson.agenda.api.request.PacienteRequest;
+import com.gmail0.anderson.agenda.api.response.PacienteResponse;
 import com.gmail0.anderson.agenda.domain.entities.Paciente;
 import com.gmail0.anderson.agenda.domain.service.PacienteService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +20,11 @@ public class PacienteController {
 
     private final PacienteService service;
     @PostMapping
-    public ResponseEntity<Paciente> salvar(@RequestBody Paciente entity){
-        Paciente paciente = service.salvar(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(entity);
+    public ResponseEntity<PacienteResponse> salvar(@RequestBody PacienteRequest request){
+        Paciente paciente = PacienteMapper.toPaciente(request);
+        Paciente pacienteSalvo = service.salvar(paciente);
+        PacienteResponse pacienteResponse = PacienteMapper.toPacienteRequest(pacienteSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteResponse);
     }
     @GetMapping
     public ResponseEntity<List<Paciente>> listarTodos(){
