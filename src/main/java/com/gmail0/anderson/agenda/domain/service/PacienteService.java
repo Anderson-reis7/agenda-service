@@ -37,8 +37,13 @@ public class PacienteService {
     public Optional<Paciente> buscarPorId(Long id){
         return repository.findById(id);
     }
-    public Paciente alterar(Paciente paciente){
-        return repository.save(paciente);
+    public Paciente alterar(Long id, Paciente paciente) {
+        Optional<Paciente> optPaciente = this.buscarPorId(id);
+        if (optPaciente.isEmpty()) {
+            throw new BusinessException("Paciente não cadastrado!");
+        }
+        paciente.setId(id);
+        return salvar(paciente);
     }
     public void deletar(Long id){
         repository.deleteById(id);

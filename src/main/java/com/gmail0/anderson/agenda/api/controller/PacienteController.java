@@ -5,6 +5,7 @@ import com.gmail0.anderson.agenda.api.request.PacienteRequest;
 import com.gmail0.anderson.agenda.api.response.PacienteResponse;
 import com.gmail0.anderson.agenda.domain.entities.Paciente;
 import com.gmail0.anderson.agenda.domain.service.PacienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +20,33 @@ import java.util.Optional;
 public class PacienteController {
 
     private final PacienteService service;
+    private final PacienteMapper mapper;
     @PostMapping
-    public ResponseEntity<PacienteResponse> salvar(@RequestBody PacienteRequest request){
-        Paciente paciente = PacienteMapper.toPaciente(request);
+    public ResponseEntity<PacienteResponse> salvar(@Valid @RequestBody PacienteRequest request){
+        Paciente paciente = mapper.toPaciente(request);
         Paciente pacienteSalvo = service.salvar(paciente);
-        PacienteResponse pacienteResponse = PacienteMapper.toPacienteRequest(pacienteSalvo);
+        PacienteResponse pacienteResponse = mapper.toPacienteResponde(pacienteSalvo);
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteResponse);
     }
     @GetMapping
-    public ResponseEntity<List<Paciente>> listarTodos(){
+    public ResponseEntity<List<PacienteResponse>> listarTodos(){
         List<Paciente> pacientes = service.listarTodos();
-        return ResponseEntity.status(HttpStatus.OK).body(pacientes);
+        List<PacienteResponse> pacienteResponses = mapper.toPacienteResponseList(pacientes);
+        return ResponseEntity.status(HttpStatus.OK).body(pacienteResponses);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id){
         Optional<Paciente> paciente = service.buscarPorId(id);
-        return paciente.map(value -> ResponseEntity.status(HttpStatus.OK)
-                .body(value))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (paciente.isEmpty()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponde(paciente.get()));
     }
-    @PutMapping
-    public ResponseEntity<Paciente> alterar(@RequestBody Paciente paciente){
-        Paciente alterar = service.alterar(paciente);
-        return ResponseEntity.status(HttpStatus.OK).body(alterar);
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteResponse> alterar(@Valid @PathVariable Long id, @RequestBody PacienteRequest request){
+        Paciente paciente = mapper.toPaciente(request);
+        Paciente alterar = service.alterar(id, paciente);
+        PacienteResponse response = mapper.toPacienteResponde(alterar);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id){
