@@ -14,8 +14,8 @@ public class PacienteRequest {
     @NotBlank(message = "O nome do paciente é obrigatório!")
     private String nome;
     @NotBlank(message = "O Sobrenome do paciente é obrigatório!")
-    private  String sobrenome;
-    private  String email;
+    private String sobrenome;
+    private String email;
     @NotBlank(message = "O CPF do paciente é obrigatório!")
-    private  String cpf;
+    private String cpf;
 }

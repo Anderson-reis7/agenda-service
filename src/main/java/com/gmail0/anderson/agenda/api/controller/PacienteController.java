@@ -21,35 +21,40 @@ public class PacienteController {
 
     private final PacienteService service;
     private final PacienteMapper mapper;
+
     @PostMapping
-    public ResponseEntity<PacienteResponse> salvar(@Valid @RequestBody PacienteRequest request){
+    public ResponseEntity<PacienteResponse> salvar(@Valid @RequestBody PacienteRequest request) {
         Paciente paciente = mapper.toPaciente(request);
         Paciente pacienteSalvo = service.salvar(paciente);
         PacienteResponse pacienteResponse = mapper.toPacienteResponde(pacienteSalvo);
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteResponse);
     }
+
     @GetMapping
-    public ResponseEntity<List<PacienteResponse>> listarTodos(){
+    public ResponseEntity<List<PacienteResponse>> listarTodos() {
         List<Paciente> pacientes = service.listarTodos();
         List<PacienteResponse> pacienteResponses = mapper.toPacienteResponseList(pacientes);
         return ResponseEntity.status(HttpStatus.OK).body(pacienteResponses);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<PacienteResponse> buscarPorId(@PathVariable Long id) {
         Optional<Paciente> paciente = service.buscarPorId(id);
         if (paciente.isEmpty()) return ResponseEntity.notFound().build();
 
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toPacienteResponde(paciente.get()));
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<PacienteResponse> alterar(@Valid @PathVariable Long id, @RequestBody PacienteRequest request){
+    public ResponseEntity<PacienteResponse> alterar(@Valid @PathVariable Long id, @RequestBody PacienteRequest request) {
         Paciente paciente = mapper.toPaciente(request);
         Paciente alterar = service.alterar(id, paciente);
         PacienteResponse response = mapper.toPacienteResponde(alterar);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id){
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

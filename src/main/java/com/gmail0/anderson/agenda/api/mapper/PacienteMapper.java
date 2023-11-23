@@ -17,10 +17,11 @@ public class PacienteMapper {
 
     private final ModelMapper mapper;
 
-    public Paciente toPaciente(PacienteRequest request){
+    public Paciente toPaciente(PacienteRequest request) {
         return mapper.map(request, Paciente.class);
     }
-    public PacienteResponse toPacienteResponde(Paciente paciente){
+
+    public PacienteResponse toPacienteResponde(Paciente paciente) {
         return mapper.map(paciente, PacienteResponse.class);
     }
 
@@ -43,7 +44,7 @@ public class PacienteMapper {
 //        return pacienteResponse;
 //    }
 
-    public  List<PacienteResponse> toPacienteResponseList(List<Paciente> pacientes) {
+    public List<PacienteResponse> toPacienteResponseList(List<Paciente> pacientes) {
         return pacientes.stream()
                 .map(this::toPacienteResponde)
                 .collect(Collectors.toList());

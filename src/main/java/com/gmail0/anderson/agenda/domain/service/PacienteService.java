@@ -17,13 +17,13 @@ public class PacienteService {
 
     private final PacienteRepository repository;
 
-    public Paciente salvar(Paciente paciente){
+    public Paciente salvar(Paciente paciente) {
         boolean existeCpf = false;
 
         Optional<Paciente> byCpf = repository.findByCpf(paciente.getCpf());
 
-        if (byCpf.isPresent()){
-            if (!byCpf.get().getId().equals(paciente.getId())){
+        if (byCpf.isPresent()) {
+            if (!byCpf.get().getId().equals(paciente.getId())) {
                 existeCpf = true;
             }
         }
@@ -31,12 +31,15 @@ public class PacienteService {
 
         return repository.save(paciente);
     }
-    public List<Paciente> listarTodos(){
+
+    public List<Paciente> listarTodos() {
         return repository.findAll();
     }
-    public Optional<Paciente> buscarPorId(Long id){
+
+    public Optional<Paciente> buscarPorId(Long id) {
         return repository.findById(id);
     }
+
     public Paciente alterar(Long id, Paciente paciente) {
         Optional<Paciente> optPaciente = this.buscarPorId(id);
         if (optPaciente.isEmpty()) {
@@ -45,7 +48,8 @@ public class PacienteService {
         paciente.setId(id);
         return salvar(paciente);
     }
-    public void deletar(Long id){
+
+    public void deletar(Long id) {
         repository.deleteById(id);
     }
 }
