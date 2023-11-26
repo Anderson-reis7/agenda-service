@@ -20,11 +20,6 @@ public class PacienteMapper {
     public Paciente toPaciente(PacienteRequest request) {
         return mapper.map(request, Paciente.class);
     }
-
-    public PacienteResponse toPacienteResponde(Paciente paciente) {
-        return mapper.map(paciente, PacienteResponse.class);
-    }
-
 //    public static Paciente toPaciente(PacienteRequest request){
 //        Paciente paciente = new Paciente();
 //        paciente.setNome(request.getNome());
@@ -34,6 +29,9 @@ public class PacienteMapper {
 //        return paciente;
 //    }
 
+    public PacienteResponse toPacienteResponde(Paciente paciente) {
+        return mapper.map(paciente, PacienteResponse.class);
+    }
 //    public static PacienteResponse toPacienteResponde(Paciente paciente){
 //        PacienteResponse pacienteResponse = new PacienteResponse();
 //        pacienteResponse.setId(paciente.getId());
