@@ -1,6 +1,6 @@
 package com.gmail0.anderson.agenda.domain.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

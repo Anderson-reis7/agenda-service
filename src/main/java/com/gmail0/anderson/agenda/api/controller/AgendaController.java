@@ -5,7 +5,7 @@ import com.gmail0.anderson.agenda.api.request.AgendaRequest;
 import com.gmail0.anderson.agenda.api.response.AgendaResponse;
 import com.gmail0.anderson.agenda.domain.entities.Agenda;
 import com.gmail0.anderson.agenda.domain.service.AgendaService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
